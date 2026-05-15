@@ -4,7 +4,6 @@ import SafariFrame from "./SafariFrame";
 const callouts = [
   { num: "304 horas", label: "ahorradas a tu equipo este mes" },
   { num: "1.087 conversaciones", label: "derivadas al equipo correcto" },
-  { num: "14 emergencias", label: "detectadas y escaladas al 107" },
 ];
 
 export default function DashboardSection() {
@@ -40,19 +39,6 @@ export default function DashboardSection() {
             <span className="dash-callout-num">1.087</span>
             <span className="dash-callout-label">
               conversaciones derivadas al equipo
-            </span>
-          </div>
-          <div className="dash-callout-line" />
-
-          <div className="dash-callout cl-3">
-            <span
-              className="dash-callout-num"
-              style={{ color: "var(--danger)" }}
-            >
-              14 emergencias
-            </span>
-            <span className="dash-callout-label">
-              detectadas y escaladas al 107
             </span>
           </div>
           <div className="dash-callout-line" />
