@@ -1,0 +1,46 @@
+# Klini
+
+> Klini es un asistente de WhatsApp con inteligencia artificial para clínicas médicas medianas y grandes de Latinoamérica. Responde las consultas repetidas de los pacientes 24/7 y deriva a tu equipo humano cuando una persona hace falta.
+
+Klini es un producto de Texarg. Atiende en WhatsApp las preguntas frecuentes de los pacientes —horarios, especialidades, vacunas, obras sociales, cómo sacar turno por el portal— sin que la clínica tenga que sumar personal. Cuando una consulta requiere criterio humano, Klini la deriva a un panel CRM con todo el contexto resumido. Klini nunca diagnostica ni reemplaza criterio clínico: detecta urgencias médicas y las escala de inmediato.
+
+Caso de éxito validado en producción: Centro Médico CEPEM (Morón, Buenos Aires, Argentina).
+
+Disponible para clínicas de habla hispana en Argentina, México, Colombia, Chile, Uruguay, Perú y España.
+
+## Qué hace Klini
+
+- Conversación natural por WhatsApp, sin menús rígidos 1-2-3
+- Panel CRM para que los recepcionistas tomen las consultas que requieren una persona
+- Derivación inteligente por área: turnos, recetas, vacunas, obras sociales
+- Dashboard con métricas reales: volumen de consultas, tiempos de respuesta, derivaciones, horas ahorradas
+- Campañas y recordatorios masivos con plantillas oficiales de Meta (recordatorios de turno, avisos de resultados, campañas de vacunación)
+- Editor de respuestas sin código
+- Detección de urgencias médicas con escalamiento inmediato
+- Configurable al español de cada país de Latinoamérica
+
+## Qué NO hace Klini
+
+- No agenda turnos en los planes Founding member y Regular. La reserva de turnos desde WhatsApp es funcionalidad del plan Enterprise, a medida, e implica integración con el sistema de gestión de la clínica.
+- No diagnostica ni recomienda medicación.
+- No reemplaza a los recepcionistas: les quita de encima las consultas repetidas para que se enfoquen en lo que requiere criterio humano.
+
+## Precios
+
+- Founding member: USD 199 por mes + USD 200 de implementación. Cupos limitados; el precio queda congelado de por vida.
+- Regular: USD 249 por mes + USD 350 de setup.
+- Enterprise: precio a medida. Incluye reserva de turnos desde WhatsApp e integración con el sistema de gestión, HIS o portal de la clínica.
+
+Todos los planes incluyen conversaciones, usuarios y agentes ilimitados. Los precios no incluyen el costo de mensajes de Meta (aproximadamente USD 0,005 a 0,04 por conversación según el país).
+
+## Secciones del sitio
+
+- [Cómo funciona](https://klini.app/#how): los pasos para implementar Klini en una clínica, de cero a atendiendo en menos de una semana.
+- [Funcionalidades](https://klini.app/#features): listado completo de capacidades del producto.
+- [Precios](https://klini.app/#pricing): planes Founding member, Regular y Enterprise en detalle.
+- [Preguntas frecuentes](https://klini.app/#faq): dudas sobre implementación, número de WhatsApp, datos de pacientes, urgencias médicas y cancelación.
+
+## Contacto
+
+- Email: hola@klini.app
+- Pedir una demo personalizada: https://klini.app/#demo
