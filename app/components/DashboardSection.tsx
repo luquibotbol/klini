@@ -4,7 +4,7 @@ import SafariFrame from "./SafariFrame";
 const callouts = [
   { num: "304 horas", label: "ahorradas a tu equipo este mes" },
   { num: "1.087 conversaciones", label: "derivadas al equipo correcto" },
-  { num: "3.642 consultas", label: "recibidas este mes" },
+  { num: "17.991 consultas", label: "recibidas este mes" },
 ];
 
 export default function DashboardSection() {

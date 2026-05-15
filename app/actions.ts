@@ -1,14 +1,9 @@
 "use server";
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
-
 export type LeadState = {
   status: "idle" | "success" | "error";
   message: string;
 };
-
-const LEADS_FILE = path.join(process.cwd(), "data", "leads.jsonl");
 
 function sanitize(input: FormDataEntryValue | null, max = 300): string {
   if (typeof input !== "string") return "";
@@ -19,13 +14,16 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+const SUCCESS_MESSAGE =
+  "¡Gracias! Te contactamos en menos de 24 hs por WhatsApp.";
+
 export async function submitLead(
   _prev: LeadState,
   formData: FormData,
 ): Promise<LeadState> {
   const honeypot = sanitize(formData.get("website"));
   if (honeypot) {
-    return { status: "success", message: "¡Gracias! Te contactamos en menos de 24 hs." };
+    return { status: "success", message: SUCCESS_MESSAGE };
   }
 
   const name = sanitize(formData.get("name"), 120);
@@ -38,7 +36,8 @@ export async function submitLead(
   if (!name || !clinic || !email || !phone) {
     return {
       status: "error",
-      message: "Completá nombre, clínica, email y WhatsApp para que te podamos contactar.",
+      message:
+        "Completá nombre, clínica, email y WhatsApp para que te podamos contactar.",
     };
   }
   if (!isValidEmail(email)) {
@@ -55,32 +54,26 @@ export async function submitLead(
     notes,
   };
 
+  const webhook = process.env.LEAD_WEBHOOK_URL;
+  if (!webhook) {
+    console.warn("LEAD_WEBHOOK_URL no configurada — lead sin enviar:", record);
+    return { status: "success", message: SUCCESS_MESSAGE };
+  }
+
   try {
-    await fs.mkdir(path.dirname(LEADS_FILE), { recursive: true });
-    await fs.appendFile(LEADS_FILE, JSON.stringify(record) + "\n", "utf8");
+    const res = await fetch(webhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(record),
+    });
+    if (!res.ok) throw new Error(`webhook respondió ${res.status}`);
   } catch (err) {
-    console.error("lead_write_failed", err);
+    console.error("lead_webhook_failed", err);
     return {
       status: "error",
       message: "Algo falló de nuestro lado. Probá de nuevo en un minuto.",
     };
   }
 
-  const webhook = process.env.LEAD_WEBHOOK_URL;
-  if (webhook) {
-    try {
-      await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record),
-      });
-    } catch (err) {
-      console.error("lead_webhook_failed", err);
-    }
-  }
-
-  return {
-    status: "success",
-    message: "¡Gracias! Te contactamos en menos de 24 hs por WhatsApp.",
-  };
+  return { status: "success", message: SUCCESS_MESSAGE };
 }
