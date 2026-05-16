@@ -44,6 +44,39 @@ export async function submitLead(
     return { status: "error", message: "Revisá el email: parece inválido." };
   }
 
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret) {
+    const token = sanitize(formData.get("cf-turnstile-response"), 2048);
+    try {
+      const verify = await fetch(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ secret: turnstileSecret, response: token }),
+        },
+      );
+      const result = (await verify.json()) as { success?: boolean };
+      if (!result.success) {
+        return {
+          status: "error",
+          message:
+            "No pudimos verificar el envío. Recargá la página e intentá de nuevo.",
+        };
+      }
+    } catch (err) {
+      console.error("turnstile_verify_failed", err);
+      return {
+        status: "error",
+        message: "Algo falló de nuestro lado. Probá de nuevo en un minuto.",
+      };
+    }
+  } else {
+    console.warn(
+      "TURNSTILE_SECRET_KEY no configurada — verificación anti-bot omitida",
+    );
+  }
+
   const record = {
     ts: new Date().toISOString(),
     name,
@@ -64,7 +97,10 @@ export async function submitLead(
     const res = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(record),
+      body: JSON.stringify({
+        ...record,
+        secret: process.env.LEAD_WEBHOOK_SECRET ?? "",
+      }),
     });
     if (!res.ok) throw new Error(`webhook respondió ${res.status}`);
   } catch (err) {
