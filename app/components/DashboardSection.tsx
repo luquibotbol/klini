@@ -45,7 +45,7 @@ export default function DashboardSection() {
           <div className="dash-callout-line" />
 
           <div className="dash-callout cl-3">
-            <span className="dash-callout-num">3.642 consultas</span>
+            <span className="dash-callout-num">17.991 consultas</span>
             <span className="dash-callout-label">recibidas este mes</span>
           </div>
           <div className="dash-callout-line" />
