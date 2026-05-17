@@ -6,11 +6,11 @@ import { submitLead, type LeadState } from "../actions";
 
 const initialState: LeadState = { status: "idle", message: "" };
 
-// Clave de sitio de Cloudflare Turnstile. Se toma de la env var
-// NEXT_PUBLIC_TURNSTILE_SITE_KEY (build-time). Si no está, se usa la
-// clave de prueba de Cloudflare para que dev funcione.
+// Clave de sitio de Cloudflare Turnstile. Es pública (va embebida en el
+// HTML del navegador, así funciona Turnstile), por eso vive en el código
+// y nunca "desaparece". La env var permite sobreescribirla si hace falta.
 const TURNSTILE_SITE_KEY =
-  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAADQU-wDFrULpyA3k";
 
 declare global {
   interface Window {
