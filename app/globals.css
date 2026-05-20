@@ -375,12 +375,12 @@ section {
 .hero-form {
   display: flex;
   gap: 8px;
-  padding: 6px;
+  padding: 8px;
   background: var(--bg-pure);
   border: 1px solid var(--line);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
-  max-width: 580px;
+  max-width: 620px;
 }
 .hero-form .input {
   border: none;
@@ -388,6 +388,8 @@ section {
   flex: 1;
   min-width: 0;
   box-shadow: none !important;
+  height: 52px;
+  font-size: 16px;
 }
 .hero-form .input:focus { outline: none; }
 .hero-form-divider {
@@ -410,9 +412,9 @@ section {
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr; gap: 48px; }
   .hero-form { flex-direction: column; border-radius: var(--radius-lg); padding: 14px; gap: 12px; }
-  .hero-form .input { height: 48px; border-radius: var(--radius-full); border: 1px solid var(--line); padding: 0 18px; }
+  .hero-form .input { height: 56px; border-radius: var(--radius-full); border: 1px solid var(--line); padding: 0 18px; font-size: 16px; }
   .hero-form-divider { display: none; }
-  .hero-form .btn { width: 100%; }
+  .hero-form .btn { width: 100%; height: 56px; font-size: 16px; }
 }
 
 /* Chat mock */
@@ -1056,8 +1058,13 @@ section {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 980px) {
-  .cta-final { grid-template-columns: 1fr; padding: 48px 28px; gap: 36px; }
+  .cta-final { grid-template-columns: minmax(0, 1fr); padding: 48px 28px; gap: 32px; }
+  .cta-final > * { min-width: 0; }
   .cta-form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .cta-final { padding: 32px 20px; gap: 24px; }
+  .cta-form-card { padding: 24px 18px; }
 }
 
 /* Footer */
@@ -1163,7 +1170,13 @@ section {
 }
 @media (max-width: 580px) {
   .cookie-banner { left: 12px; right: 86px; bottom: 12px; max-width: none; }
-  .float-chat { right: 12px; bottom: 12px; padding: 0 0 0 0; width: 60px; height: 60px; }
+  .float-chat {
+    right: 12px; bottom: 12px;
+    padding: 0;
+    width: 60px; height: 60px;
+    justify-content: center;
+    gap: 0;
+  }
   .float-chat span:not(.float-chat-icon) { display: none; }
 }
 

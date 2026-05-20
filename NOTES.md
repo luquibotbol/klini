@@ -116,6 +116,26 @@ Estructura del `doPost`: parsea el JSON, valida `data.secret`, hace
   es read-only).
 - Se sumó anti-spam: honeypot + Turnstile + secreto compartido.
 - Site key de Turnstile hardcodeado (es público) para que no desaparezca.
+- **Fix de mobile en la sección CTA final (2026-05-20):** se desbordaba
+  horizontalmente porque el iframe de Turnstile fuerza un ancho mínimo de
+  ~300px y empujaba la columna del grid más allá del viewport. Tres cambios:
+  - `grid-template-columns: minmax(0, 1fr)` y `min-width: 0` en hijos para
+    permitir que la columna se achique.
+  - Padding más chico en la cta-card en mobile (40/20 en el cuadro oscuro,
+    24/18 en la card blanca).
+  - Turnstile renderizado con `size: "flexible"` para que se adapte al ancho
+    del contenedor en vez de quedar fijo en 300px.
+- **Fix del botón flotante de chat en mobile:** sin `justify-content: center`
+  el ícono interno (30×30) quedaba pegado a la izquierda dentro del círculo
+  verde (60×60). Se agregó `justify-content: center` y `gap: 0` en la regla
+  `@media (max-width: 580px)`.
+- **Inputs del hero más grandes (2026-05-20):** `.hero-form .input` pasó a
+  height 52px (desktop) / 56px (mobile), font-size 16px. El botón
+  "Pedir demo en vivo" usa ahora `btn-lg` para mantener proporción.
+- **CTA final en mobile más compacto:** se redujo padding y gap de
+  `.cta-final` en `<=720px` (32px 20px, gap 24px) para que la card del
+  formulario "Reservá tu demo" aparezca cerca de los bullets y no quede
+  perdida abajo.
 
 ### Nota: recuperación del repo (2026-05-16)
 

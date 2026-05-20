@@ -67,7 +67,7 @@ export default function Hero() {
                 onChange={(e) => setPhone(e.target.value)}
                 aria-label="WhatsApp"
               />
-              <button className="btn btn-primary" type="submit">
+              <button className="btn btn-primary btn-lg" type="submit">
                 {submitted ? "Yendo a la demo ↓" : "Pedir demo en vivo"}
               </button>
             </form>

@@ -17,7 +17,7 @@ declare global {
     turnstile?: {
       render: (
         el: HTMLElement,
-        opts: { sitekey: string },
+        opts: { sitekey: string; size?: "normal" | "compact" | "flexible" },
       ) => string;
       reset: (id?: string) => void;
     };
@@ -52,6 +52,7 @@ export default function CTAFinal() {
     if (!window.turnstile || !widgetRef.current || widgetId.current) return;
     widgetId.current = window.turnstile.render(widgetRef.current, {
       sitekey: TURNSTILE_SITE_KEY,
+      size: "flexible",
     });
   };
 
