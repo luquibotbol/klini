@@ -1,83 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-
-type ScriptStep =
-  | { from: "user" | "bot"; text: string }
-  | { typing: true; ms: number };
+import type { ClinicData, ScriptStep, ChatResponse } from "../lib/clinic";
 
 type Message =
   | { from: "user" | "bot"; text: string; time: string; key: string }
   | { typing: true; key: string };
 
-const INITIAL_SCRIPT: ScriptStep[] = [
-  { from: "user", text: "Hola, necesito información sobre vacunas" },
-  { typing: true, ms: 1000 },
-  {
-    from: "bot",
-    text: "¡Hola! Soy Klini, asistente del Centro Médico Demo 👋\n\nTenemos vacunatorio de lunes a viernes de 8 a 18 hs y sábados de 8 a 13. ¿Sobre qué vacuna querés información?",
-  },
-  { from: "user", text: "antigripal para adulto" },
-  { typing: true, ms: 1100 },
-  {
-    from: "bot",
-    text: "Para la antigripal en adultos no se requiere turno previo. Llevá DNI y carnet de vacunación.\n\nLa atendemos en Av. Demo 123, planta baja. ¿Te paso el mapa?",
-  },
-];
-
-const RESPONSES: { keys: string[]; text: string }[] = [
-  {
-    keys: ["turno", "agendar", "agenda", "cita", "reservar"],
-    text: "Los turnos los gestionás desde nuestro portal de pacientes en portal.demo.com. Si querés, te paso el paso a paso o te derivo con una recepcionista. 👩‍⚕️",
-  },
-  {
-    keys: ["horario", "abren", "abierto", "hora"],
-    text: "Atendemos de lunes a viernes de 7 a 20 hs y sábados de 8 a 14 hs. Vacunatorio: lun-vie 8-18, sábados 8-13.",
-  },
-  {
-    keys: ["vacuna", "antigripal", "covid", "hpv"],
-    text: "Tenemos disponibles: antigripal, COVID, HPV, hepatitis B, fiebre amarilla y triple viral. ¿Sobre cuál querés saber más?",
-  },
-  {
-    keys: ["obra social", "prepaga", "osde", "swiss", "galeno", "ioma", "pami"],
-    text: "Trabajamos con OSDE, Swiss Medical, Galeno, Medifé, IOMA y PAMI entre otras. ¿Con cuál tenés cobertura? Te confirmo si está bonificada para tu especialidad.",
-  },
-  {
-    keys: ["urgencia", "emergencia", "dolor", "fiebre alta", "ahora"],
-    text: "⚠️ Si es una emergencia médica, te derivo ahora con una recepcionista para que te oriente. También podés llamar al 107 (SAME).",
-  },
-  {
-    keys: ["receta", "medicamento", "remedio"],
-    text: "Para renovación de recetas necesitamos pedirlas con 48 hs de anticipación. Decime el medicamento y la última fecha de la receta, lo derivo al médico de cabecera.",
-  },
-  {
-    keys: ["direccion", "ubicacion", "dónde", "donde", "mapa"],
-    text: "Estamos en Av. Demo 123, Morón, Provincia de Buenos Aires. Hay estacionamiento gratuito y subte línea X a dos cuadras. 📍",
-  },
-  {
-    keys: [
-      "pediatra",
-      "ginecólogo",
-      "ginecologo",
-      "cardiólogo",
-      "cardiologo",
-      "especialidad",
-      "clínica",
-      "clinica",
-    ],
-    text: "Tenemos +25 especialidades. Decime cuál buscás y te confirmo médicos disponibles y obras sociales bonificadas. 🩺",
-  },
-];
-
-const FALLBACK =
+const DEFAULT_FALLBACK =
   "Buena pregunta — esto sería personalizado para tu clínica. Pedinos una demo y te mostramos cómo se ve. 😉";
 
-function findResponse(text: string): string {
+function findResponse(text: string, responses: ChatResponse[], fallback: string): string {
   const t = text.toLowerCase();
-  for (const r of RESPONSES) {
-    if (r.keys.some((k) => t.includes(k))) return r.text;
+  for (const r of responses) {
+    if (r.keys.some((k) => t.includes(k.toLowerCase()))) return r.text;
   }
-  return FALLBACK;
+  return fallback;
 }
 
 function timeNow(): string {
@@ -105,7 +43,9 @@ function ChatBubble({ msg }: { msg: Message }) {
   );
 }
 
-export default function ChatMock() {
+type Props = { clinic: ClinicData };
+
+export default function ChatMock({ clinic }: Props) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [initialDone, setInitialDone] = useState(false);
@@ -113,15 +53,20 @@ export default function ChatMock() {
   const bodyRef = useRef<HTMLDivElement>(null);
   const cancelledRef = useRef(false);
 
+  const fallback = clinic.fallback ?? DEFAULT_FALLBACK;
+  const responses = clinic.responses;
+  const initialScript: ScriptStep[] = clinic.script;
+  const headerName = clinic.shortName ?? clinic.name;
+
   useEffect(() => {
     let mounted = true;
     cancelledRef.current = false;
 
     async function runScript() {
       await new Promise((r) => setTimeout(r, 500));
-      for (let i = 0; i < INITIAL_SCRIPT.length; i++) {
+      for (let i = 0; i < initialScript.length; i++) {
         if (!mounted || cancelledRef.current) return;
-        const step = INITIAL_SCRIPT[i];
+        const step = initialScript[i];
         if ("typing" in step) {
           setMessages((m) => [...m, { typing: true, key: `t-${i}` }]);
           await new Promise((r) => setTimeout(r, step.ms));
@@ -131,7 +76,7 @@ export default function ChatMock() {
             ...m,
             { from: step.from, text: step.text, time: timeNow(), key: `init-${i}` },
           ]);
-          const next = INITIAL_SCRIPT[i + 1];
+          const next = initialScript[i + 1];
           const pause = next && "from" in next && next.from === step.from ? 350 : 700;
           await new Promise((r) => setTimeout(r, pause));
         }
@@ -143,7 +88,7 @@ export default function ChatMock() {
       mounted = false;
       cancelledRef.current = true;
     };
-  }, []);
+  }, [initialScript]);
 
   useEffect(() => {
     if (bodyRef.current) {
@@ -166,14 +111,14 @@ export default function ChatMock() {
       setMessages((m) => [...m, { typing: true, key: `bt-${Date.now()}` }]);
       await new Promise((r) => setTimeout(r, 900 + Math.random() * 500));
       setMessages((m) => m.filter((x) => !("typing" in x)));
-      const reply = findResponse(text);
+      const reply = findResponse(text, responses, fallback);
       setMessages((m) => [
         ...m,
         { from: "bot", text: reply, time: timeNow(), key: `b-${Date.now()}` },
       ]);
       setIsBotResponding(false);
     },
-    [isBotResponding],
+    [isBotResponding, responses, fallback],
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -194,7 +139,7 @@ export default function ChatMock() {
             <img src="/assets/k-mark.png" alt="K" />
           </div>
           <div className="chat-header-info">
-            <div className="chat-header-name">Centro Médico Demo</div>
+            <div className="chat-header-name">{headerName}</div>
             <div className="chat-header-status">
               <span
                 style={{

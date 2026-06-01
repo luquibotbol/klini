@@ -12,13 +12,14 @@ import FAQ from "./components/FAQ";
 import CTAFinal from "./components/CTAFinal";
 import Footer from "./components/Footer";
 import FloatingChat from "./components/FloatingChat";
+import { DEFAULT_CLINIC } from "./lib/clinics";
 
 export default function Home() {
   return (
     <>
       <Nav />
       <main>
-        <Hero />
+        <Hero clinic={DEFAULT_CLINIC} />
         <Logos />
         <DashboardSection />
         <HowItWorks />

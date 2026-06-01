@@ -136,6 +136,21 @@ Estructura del `doPost`: parsea el JSON, valida `data.secret`, hace
   `.cta-final` en `<=720px` (32px 20px, gap 24px) para que la card del
   formulario "Reservá tu demo" aparezca cerca de los bullets y no quede
   perdida abajo.
+- **Demos personalizados por clínica (2026-05-20):** sistema para mandar
+  links únicos por prospecto, con el chat del hero pre-cargado con datos
+  reales de su clínica.
+  - Tipo `ClinicData` en `app/lib/clinic.ts` — script inicial, respuestas
+    por keyword, fallback.
+  - Datos por clínica en `data/clinics/<slug>.ts` (un archivo por clínica).
+  - Registro en `app/lib/clinics.ts` — agregar la clínica acá para que la
+    ruta `/demo/<slug>` se genere estática automáticamente.
+  - Ruta dinámica `app/demo/[slug]/page.tsx` con `generateStaticParams` →
+    los demos se prerrenderan a HTML estático en build.
+  - `ChatMock` y `Hero` toman ahora una prop `clinic`. En la landing
+    principal `/` se pasa el demo genérico (`DEFAULT_CLINIC`).
+  - **Cómo agregar una clínica nueva:** crear el archivo TS en
+    `data/clinics/`, importarlo en `app/lib/clinics.ts` y agregarlo al
+    array `allClinics`. Listo.
 
 ### Nota: recuperación del repo (2026-05-16)
 

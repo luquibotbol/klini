@@ -2,8 +2,16 @@
 
 import { useState } from "react";
 import ChatMock from "./ChatMock";
+import type { ClinicData } from "../lib/clinic";
 
-export default function Hero() {
+type Props = {
+  /** Clínica a mostrar en el chat. La home pasa la genérica; /demo/[slug] pasa la real. */
+  clinic: ClinicData;
+  /** Si es true, muestra el hero personalizado (pill + heading apuntando a la clínica). */
+  personalized?: boolean;
+};
+
+export default function Hero({ clinic, personalized = false }: Props) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [emailErr, setEmailErr] = useState(false);
@@ -23,26 +31,42 @@ export default function Hero() {
     }, 600);
   };
 
+  const clinicLabel = clinic.shortName ?? clinic.name;
+
   return (
     <section className="hero" id="top">
       <div className="container">
         <div className="hero-grid">
           <div>
-            <span className="pill">
-              <span className="dot dot-live" />
-              La recepcionista de WhatsApp para tu clínica
-            </span>
+            {personalized ? (
+              <span className="pill">
+                <span className="dot dot-live" />
+                Demo personalizada para {clinicLabel}
+              </span>
+            ) : (
+              <span className="pill">
+                <span className="dot dot-live" />
+                La recepcionista de WhatsApp para tu clínica
+              </span>
+            )}
 
-            <h1 className="h-display mt-6">
-              Tus pacientes preguntan.
-              <br />
-              Klini <span className="hl-lime">responde 24/7.</span>
-            </h1>
+            {personalized ? (
+              <h1 className="h-display mt-6">
+                Así atendería Klini el WhatsApp de{" "}
+                <span className="hl-lime">{clinicLabel}.</span>
+              </h1>
+            ) : (
+              <h1 className="h-display mt-6">
+                Tus pacientes preguntan.
+                <br />
+                Klini <span className="hl-lime">responde 24/7.</span>
+              </h1>
+            )}
 
             <p className="lede mt-6">
-              Atendé las consultas repetidas — horarios, vacunas, obra social,
-              cómo sacar turno — en WhatsApp sin sumar gente. Cuando hace falta,
-              derivamos a tu equipo con todo el contexto.
+              {personalized
+                ? `Probá el chat de la derecha — está cargado con datos reales de ${clinicLabel}. Hacele las preguntas que reciben todos los días.`
+                : "Atendé las consultas repetidas — horarios, vacunas, obra social, cómo sacar turno — en WhatsApp sin sumar gente. Cuando hace falta, derivamos a tu equipo con todo el contexto."}
             </p>
 
             <form className="hero-form mt-8" onSubmit={onSubmit} noValidate>
@@ -96,7 +120,7 @@ export default function Hero() {
           </div>
 
           <div>
-            <ChatMock />
+            <ChatMock clinic={clinic} />
           </div>
         </div>
       </div>
