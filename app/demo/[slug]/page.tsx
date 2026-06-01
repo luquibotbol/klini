@@ -5,7 +5,6 @@ import Hero from "../../components/Hero";
 import CaseStudy from "../../components/CaseStudy";
 import CTAFinal from "../../components/CTAFinal";
 import Footer from "../../components/Footer";
-import FloatingChat from "../../components/FloatingChat";
 import { getClinic, getAllDemoSlugs } from "../../lib/clinics";
 
 type Params = { slug: string };
@@ -51,7 +50,6 @@ export default async function DemoClinicPage({
         <CTAFinal />
       </main>
       <Footer />
-      <FloatingChat />
     </>
   );
 }

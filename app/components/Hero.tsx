@@ -69,36 +69,48 @@ export default function Hero({ clinic, personalized = false }: Props) {
                 : "Atendé las consultas repetidas — horarios, vacunas, obra social, cómo sacar turno — en WhatsApp sin sumar gente. Cuando hace falta, derivamos a tu equipo con todo el contexto."}
             </p>
 
-            <form className="hero-form mt-8" onSubmit={onSubmit} noValidate>
-              <input
-                className={`input ${emailErr ? "error" : ""}`}
-                type="email"
-                placeholder="tu@clinica.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setEmailErr(false);
-                }}
-                aria-label="Email"
-                aria-invalid={emailErr}
-              />
-              <div className="hero-form-divider" />
-              <input
-                className="input"
-                type="tel"
-                placeholder="WhatsApp +54 9..."
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                aria-label="WhatsApp"
-              />
-              <button className="btn btn-primary btn-lg" type="submit">
-                {submitted ? "Yendo a la demo ↓" : "Pedir demo en vivo"}
-              </button>
-            </form>
-            {emailErr && (
-              <div className="input-error-text">
-                Ingresá un email válido para que te contactemos.
-              </div>
+            {personalized ? (
+              <a
+                href="#demo"
+                className="btn btn-primary btn-lg mt-8"
+                style={{ alignSelf: "flex-start" }}
+              >
+                Hablar con el equipo de Klini →
+              </a>
+            ) : (
+              <>
+                <form className="hero-form mt-8" onSubmit={onSubmit} noValidate>
+                  <input
+                    className={`input ${emailErr ? "error" : ""}`}
+                    type="email"
+                    placeholder="tu@clinica.com"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailErr(false);
+                    }}
+                    aria-label="Email"
+                    aria-invalid={emailErr}
+                  />
+                  <div className="hero-form-divider" />
+                  <input
+                    className="input"
+                    type="tel"
+                    placeholder="WhatsApp +54 9..."
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    aria-label="WhatsApp"
+                  />
+                  <button className="btn btn-primary btn-lg" type="submit">
+                    {submitted ? "Yendo a la demo ↓" : "Pedir demo en vivo"}
+                  </button>
+                </form>
+                {emailErr && (
+                  <div className="input-error-text">
+                    Ingresá un email válido para que te contactemos.
+                  </div>
+                )}
+              </>
             )}
 
             <div className="hero-stats mt-12">
