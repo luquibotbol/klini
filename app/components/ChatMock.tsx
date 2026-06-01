@@ -1,21 +1,34 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ClinicData, ScriptStep, ChatResponse } from "../lib/clinic";
+import type { ClinicData, ScriptStep } from "../lib/clinic";
 
 type Message =
   | { from: "user" | "bot"; text: string; time: string; key: string }
   | { typing: true; key: string };
 
-const DEFAULT_FALLBACK =
-  "Buena pregunta — esto sería personalizado para tu clínica. Pedinos una demo y te mostramos cómo se ve. 😉";
+type ApiMsg = { role: "user" | "assistant"; content: string };
 
-function findResponse(text: string, responses: ChatResponse[], fallback: string): string {
-  const t = text.toLowerCase();
-  for (const r of responses) {
-    if (r.keys.some((k) => t.includes(k.toLowerCase()))) return r.text;
+const DEFAULT_FALLBACK =
+  "Disculpá, no pude procesar eso. Probá de nuevo en un minuto.";
+
+async function askLLM(
+  slug: string,
+  history: ApiMsg[],
+  fallback: string,
+): Promise<string> {
+  try {
+    const r = await fetch(`/api/chat/${encodeURIComponent(slug)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history }),
+    });
+    if (!r.ok) return fallback;
+    const data = (await r.json()) as { reply?: string };
+    return data.reply?.trim() || fallback;
+  } catch {
+    return fallback;
   }
-  return fallback;
 }
 
 function timeNow(): string {
@@ -54,9 +67,12 @@ export default function ChatMock({ clinic }: Props) {
   const cancelledRef = useRef(false);
 
   const fallback = clinic.fallback ?? DEFAULT_FALLBACK;
-  const responses = clinic.responses;
   const initialScript: ScriptStep[] = clinic.script;
   const headerName = clinic.shortName ?? clinic.name;
+  const slug = clinic.slug;
+
+  // Mantenemos el historial real (sin typings) para mandarlo al endpoint del LLM.
+  const apiHistoryRef = useRef<ApiMsg[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -76,6 +92,11 @@ export default function ChatMock({ clinic }: Props) {
             ...m,
             { from: step.from, text: step.text, time: timeNow(), key: `init-${i}` },
           ]);
+          // Sumamos al historial para que el LLM tenga contexto del intro.
+          apiHistoryRef.current.push({
+            role: step.from === "bot" ? "assistant" : "user",
+            content: step.text,
+          });
           const next = initialScript[i + 1];
           const pause = next && "from" in next && next.from === step.from ? 350 : 700;
           await new Promise((r) => setTimeout(r, pause));
@@ -106,19 +127,23 @@ export default function ChatMock({ clinic }: Props) {
         ...m,
         { from: "user", text, time: ts, key: `u-${Date.now()}` },
       ]);
+      apiHistoryRef.current.push({ role: "user", content: text });
       setIsBotResponding(true);
-      await new Promise((r) => setTimeout(r, 350));
+      // Pequeña pausa antes del typing indicator (UX).
+      await new Promise((r) => setTimeout(r, 250));
       setMessages((m) => [...m, { typing: true, key: `bt-${Date.now()}` }]);
-      await new Promise((r) => setTimeout(r, 900 + Math.random() * 500));
+      // Llamamos al endpoint. Cortamos historial a las últimas 10 entradas.
+      const history = apiHistoryRef.current.slice(-10);
+      const reply = await askLLM(slug, history, fallback);
       setMessages((m) => m.filter((x) => !("typing" in x)));
-      const reply = findResponse(text, responses, fallback);
+      apiHistoryRef.current.push({ role: "assistant", content: reply });
       setMessages((m) => [
         ...m,
         { from: "bot", text: reply, time: timeNow(), key: `b-${Date.now()}` },
       ]);
       setIsBotResponding(false);
     },
-    [isBotResponding, responses, fallback],
+    [isBotResponding, slug, fallback],
   );
 
   const handleSubmit = (e: React.FormEvent) => {

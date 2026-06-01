@@ -151,6 +151,21 @@ Estructura del `doPost`: parsea el JSON, valida `data.secret`, hace
   - **Cómo agregar una clínica nueva:** crear el archivo TS en
     `data/clinics/`, importarlo en `app/lib/clinics.ts` y agregarlo al
     array `allClinics`. Listo.
+- **Chat de los demos con OpenAI (2026-05-20):** el `ChatMock` juega el
+  intro scripteado y después manda cada mensaje libre al endpoint
+  `POST /api/chat/[slug]`. El endpoint:
+  - corre en **Edge runtime** (`runtime = "edge"`)
+  - arma el system prompt con `buildSystemPrompt(clinic)` (en
+    `app/lib/clinic-kb.ts`) — corto, con la KB de la clínica al final
+  - llama a OpenAI vía `fetch` directo (sin SDK) con modelo
+    `gpt-4.1-nano` (override con env `OPENAI_MODEL`)
+  - cap de 250 tokens, temperatura 0.4
+  - cap de historial: últimas 8-10 entradas
+  - sin key → loguea warning y devuelve fallback amistoso (no rompe)
+  - Variable de entorno requerida: `OPENAI_API_KEY` (runtime, Secret).
+  - **Costo estimado:** con `gpt-4.1-nano` (~USD 0.10/M tokens input,
+    USD 0.40/M output) 100 conversaciones × 20 mensajes ≈ USD 0.50.
+    Despreciable.
 
 ### Nota: recuperación del repo (2026-05-16)
 
