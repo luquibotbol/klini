@@ -1,10 +1,13 @@
 import type { ClinicData } from "../../app/lib/clinic";
 
-// Grupo Centro — Rosario, Argentina.
-// Prospecto: Francisco Falcón, Gerente General.
-// Insight: ya tienen autogestión de turnos (pacientes.grupocentro.ar). El WhatsApp
-// se llena con consultas de horarios, prepagas y dónde se hace cada estudio
-// (Sanatorio Centro vs. Instituto Médico vs. Clínica Oftalmológica).
+// Grupo Centro — Rosario, Santa Fe, Argentina (grupo médico fundado en 2006).
+// Prospecto: Francisco, Gerente General.
+// Insight: ya tienen autogestión de turnos (pacientes.grupocentro.ar) + app
+// "Sanatorio Centro". El WhatsApp se llena con consultas de horarios, planes
+// de prepagas y dónde se hace cada estudio (Sanatorio Centro / Instituto Médico
+// / Clínica Oftalmológica), todo data que ya vive en el sitio.
+// Datos verificados en grupocentro.ar (inicio, /profesionales, /contacto,
+// /prepagas-obras-sociales) en junio 2026.
 const clinic: ClinicData = {
   slug: "grupo-centro",
   name: "Grupo Centro",
@@ -19,31 +22,39 @@ const clinic: ClinicData = {
     {
       from: "bot",
       text:
-        "¡Hola! Soy Klini, asistente de Grupo Centro 👋\n\nLos estudios de diagnóstico por imágenes los hacemos en el Instituto Médico Centro, en Balcarce 421 (pisos 6 al 9). ¿Es una ecografía con orden médica? Te paso el link para sacar turno.",
+        "¡Hola! Soy Klini, el asistente de Grupo Centro 👋\n\nLos estudios de diagnóstico por imágenes los hacemos en el Instituto Médico Centro, en Balcarce 421 (pisos 6 al 9). ¿Tenés la orden médica? Así te paso el link para que saques el turno vos mismo.",
     },
-    { from: "user", text: "sí tengo la orden, qué obras sociales toman?" },
+    { from: "user", text: "sí, tengo la orden. qué obras sociales toman?" },
     { typing: true, ms: 1100 },
     {
       from: "bot",
       text:
-        "Trabajamos con las principales: OSDE, Swiss Medical, Galeno, Medifé, entre otras. Podés sacar el turno vos mismo en pacientes.grupocentro.ar (también está la app en Play Store y App Store).\n\n¿Querés que te confirme si cubren tu plan específico?",
+        "Trabajamos con un montón: OSDE (plan 310 y superiores), Swiss Medical, Galeno, Medifé, Medicus, OMINT, Avalian, Federada Salud, Prevención y varias más. Algunos tienen planes específicos habilitados.\n\nPasame cuál tenés y te confirmo si te cubre la ecografía. ¿Querés que te pase el link de turnos igual?",
+    },
+    { from: "user", text: "tengo OSDE 410. y cómo saco el turno?" },
+    { typing: true, ms: 1000 },
+    {
+      from: "bot",
+      text:
+        "OSDE 410 está cubierto (tomamos plan 310 en adelante) 👍\n\nEntrá a pacientes.grupocentro.ar o usá la app \"Sanatorio Centro\" (Play Store / App Store), elegí Diagnóstico por imágenes y reservás día y horario. Después el informe te queda online para descargar desde el mismo portal. ¿Te ayudo con algo más?",
     },
   ],
 
   responses: [
     {
-      keys: ["turno", "agendar", "agenda", "cita", "reservar", "sacar"],
+      keys: ["turno", "turnos", "agendar", "agenda", "cita", "reservar", "sacar", "autogestion", "autogestión"],
       text:
-        "Podés sacar tu turno online en pacientes.grupocentro.ar o desde la app de Grupo Centro (iOS y Android). También por teléfono al (0341) 530-9000. ¿Para qué especialidad lo necesitás?",
+        "Podés sacar tu turno online vos mismo en pacientes.grupocentro.ar o desde la app \"Sanatorio Centro\" (iOS y Android): elegís especialidad o estudio, día y horario. También por teléfono al (0341) 530-9000. ¿Para qué especialidad o estudio lo necesitás?",
     },
     {
-      keys: ["horario", "abren", "abierto", "atienden", "atencion", "atención"],
+      keys: ["horario", "horarios", "abren", "abierto", "atienden", "atencion", "atención", "abre"],
       text:
-        "El Sanatorio Centro (Paraguay 975) atiende las 24 hs para internación y guardia. Consultorios y diagnóstico en Instituto Médico (Balcarce 421) atienden de lunes a viernes en horario comercial. ¿Querés el horario de alguna especialidad puntual?",
+        "La guardia del Sanatorio Centro (Paraguay 975) funciona las 24 hs, todos los días. Los consultorios y el diagnóstico por imágenes en el Instituto Médico (Balcarce 421) atienden de lunes a viernes en horario comercial. Si querés, decime la especialidad y te confirmo el horario puntual.",
     },
     {
       keys: [
         "sede",
+        "sedes",
         "sucursal",
         "ubicacion",
         "ubicación",
@@ -52,9 +63,11 @@ const clinic: ClinicData = {
         "donde",
         "dónde",
         "queda",
+        "como llego",
+        "cómo llego",
       ],
       text:
-        "Tenemos tres sedes en Rosario:\n• Sanatorio Centro — Paraguay 975 (internación y guardia)\n• Instituto Médico Centro — Balcarce 421, pisos 6 al 9 (consultorios y diagnóstico)\n• Clínica Oftalmológica Centro — Balcarce 421\n\n¿A cuál te queda más cerca ir?",
+        "Tenemos tres sedes en pleno centro de Rosario:\n• Sanatorio Centro — Paraguay 975 (internación, guardia 24 hs, cirugía y terapia intensiva)\n• Instituto Médico Centro — Balcarce 421, pisos 6 al 9 (consultorios y diagnóstico por imágenes)\n• Clínica Oftalmológica Centro — Balcarce 421\n\nAdemás el Centro de Medicina Reproductiva en Balcarce 421, piso 10. ¿A cuál te queda más cómodo ir?",
     },
     {
       keys: [
@@ -62,9 +75,12 @@ const clinic: ClinicData = {
         "ecografía",
         "radiografia",
         "radiografía",
+        "rayos",
         "tomografia",
         "tomografía",
         "resonancia",
+        "mamografia",
+        "mamografía",
         "diagnostico",
         "diagnóstico",
         "imagenes",
@@ -73,7 +89,7 @@ const clinic: ClinicData = {
         "estudios",
       ],
       text:
-        "Los estudios de diagnóstico (ecografía, radiografía, tomografía, resonancia) se realizan en el Instituto Médico Centro, Balcarce 421. La mayoría requiere orden médica y turno previo en pacientes.grupocentro.ar. ¿Qué estudio te indicaron?",
+        "El diagnóstico por imágenes (ecografía, radiología, tomografía, resonancia, mamografía) se realiza en el Instituto Médico Centro, Balcarce 421 (pisos 6 al 9). La mayoría necesita orden médica y turno previo, que sacás en pacientes.grupocentro.ar o por la app. ¿Qué estudio te indicaron y con qué cobertura?",
     },
     {
       keys: [
@@ -83,50 +99,62 @@ const clinic: ClinicData = {
         "oftalmólogo",
         "ojos",
         "vista",
+        "cataratas",
         "anteojos",
       ],
       text:
-        "La Clínica Oftalmológica Centro funciona en Balcarce 421. Hacemos consultas, controles, cirugía de cataratas, refractiva y estudios oculares. Los turnos se sacan en pacientes.grupocentro.ar o al (0341) 530-9000.",
+        "La Clínica Oftalmológica Centro funciona en Balcarce 421. Hacemos consultas, controles, estudios oculares y cirugías oftalmológicas. Los turnos los sacás en pacientes.grupocentro.ar, por la app o al (0341) 530-9000.",
     },
     {
       keys: [
         "ginecologia",
         "ginecología",
         "obstetricia",
+        "tocoginecologia",
+        "tocoginecología",
         "embarazo",
         "reproduccion",
         "reproducción",
         "fertilidad",
+        "fertilizacion",
+        "fertilización",
       ],
       text:
-        "Tenemos Ginecología, Obstetricia, Endocrinología Ginecológica y Medicina Reproductiva. Las consultas son en Instituto Médico (Balcarce 421). ¿Necesitás turno con algún profesional en particular?",
+        "Tenemos Ginecología y Obstetricia, Tocoginecología, Endocrinología Ginecológica y de la Reproducción, y un Centro de Medicina Reproductiva (fertilización asistida) en Balcarce 421, piso 10. Las consultas son en el Instituto Médico (Balcarce 421). ¿Querés turno con algún profesional en particular?",
     },
     {
       keys: [
         "obra social",
+        "obras sociales",
         "prepaga",
+        "prepagas",
         "cobertura",
         "convenio",
+        "plan",
         "osde",
         "swiss",
         "galeno",
         "medife",
         "medifé",
-        "ioma",
-        "pami",
+        "medicus",
+        "omint",
+        "avalian",
+        "federada",
+        "prevencion",
+        "prevención",
       ],
       text:
-        "Trabajamos con OSDE, Swiss Medical, Galeno, Medifé, IOMA, PAMI y la mayoría de las prepagas y obras sociales. Para confirmar la cobertura exacta de tu plan y la práctica, decime cuál tenés y te confirmo al toque.",
+        "Trabajamos con muchas, entre otras: OSDE (plan 310 y superiores), Swiss Medical, Galeno (ORO/PLATA), Medifé (ORO/PLATA/PLATINUM), Medicus, OMINT, Avalian, Federada Salud, Prevención, Esencial.ar, OSPJN, Hospital Italiano y Luis Pasteur. Varias tienen planes o credenciales específicas habilitadas. Pasame cuál tenés con tu plan y te confirmo la cobertura exacta.",
     },
     {
-      keys: ["urgencia", "emergencia", "guardia", "dolor", "fiebre alta"],
+      keys: ["urgencia", "emergencia", "guardia", "dolor", "fiebre", "accidente"],
       text:
-        "⚠️ Si es una emergencia médica, llamá al 107 (SAME) o acercate a la guardia del Sanatorio Centro en Paraguay 975, que atiende las 24 hs. ¿Te derivo con un agente?",
+        "⚠️ Si es una emergencia médica, llamá al 107 (SAME) o acercate a la guardia del Sanatorio Centro, Paraguay 975, que atiende las 24 hs todos los días. ¿Querés que te derive con un agente?",
     },
     {
-      keys: ["resultado", "informe", "estudios online", "descargar"],
+      keys: ["resultado", "resultados", "informe", "informes", "estudios online", "descargar", "ver mis estudios"],
       text:
-        "Los resultados de estudios quedan disponibles en pacientes.grupocentro.ar y en la app, con tu usuario. Una vez que el informe está cargado podés descargarlo desde ahí cuando quieras.",
+        "Los resultados e informes de estudios quedan disponibles en pacientes.grupocentro.ar y en la app \"Sanatorio Centro\", con tu usuario. Una vez que el informe está cargado, lo descargás vos mismo desde ahí cuando quieras, sin tener que pasar a buscarlo.",
     },
     {
       keys: [
@@ -136,9 +164,14 @@ const clinic: ClinicData = {
         "operación",
         "internacion",
         "internación",
+        "terapia intensiva",
+        "uti",
+        "coronaria",
+        "quirofano",
+        "quirófano",
       ],
       text:
-        "Las cirugías e internaciones se realizan en el Sanatorio Centro (Paraguay 975). Para programar una cirugía necesitás la indicación de tu médico tratante y la autorización de la obra social. ¿Querés que te derive con admisiones?",
+        "Las cirugías e internaciones se hacen en el Sanatorio Centro (Paraguay 975), que cuenta con quirófanos, unidad de terapia intensiva, unidad coronaria y una unidad de cirugía ambulatoria. Para programar una cirugía necesitás la indicación de tu médico y la autorización de la obra social. ¿Querés que te derive con admisiones?",
     },
     {
       keys: [
@@ -150,19 +183,29 @@ const clinic: ClinicData = {
         "psicología",
         "flebologia",
         "flebología",
+        "cabeza y cuello",
+        "toracica",
+        "torácica",
+        "especialidad",
+        "especialidades",
       ],
       text:
-        "Sí, atendemos Oncología Clínica, Nutrición, Psicología, Flebología, Cirugía General, Cirugía de Cabeza y Cuello y Cirugía Torácica, entre otras. ¿Querés que te coordine turno con alguna?",
+        "Sí, atendemos Oncología Clínica, Nutrición, Psicología, Flebología, Cirugía General, Cirugía de Cabeza y Cuello y Cirugía Torácica, además de Ginecología, Obstetricia y Oftalmología. ¿Querés que te coordine un turno con alguna?",
     },
     {
-      keys: ["telefono", "teléfono", "llamar", "contacto", "mail", "email"],
+      keys: ["laboratorio", "analisis", "análisis", "sangre", "extraccion", "extracción"],
       text:
-        "Nos contactás al (0341) 530-9000 o por mail a info@grupocentro.ar. Para turnos, lo más rápido es pacientes.grupocentro.ar. ¿Te ayudo con algo puntual?",
+        "El laboratorio central funciona en el Sanatorio Centro (Paraguay 975). Para análisis con orden médica sacás turno en pacientes.grupocentro.ar o por la app, y después retirás los resultados online desde el mismo portal. ¿Necesitás saber alguna preparación en particular? Decime el estudio y te oriento.",
+    },
+    {
+      keys: ["telefono", "teléfono", "llamar", "contacto", "mail", "email", "whatsapp"],
+      text:
+        "Nos contactás al (0341) 530-9000 o por mail a info@grupocentro.ar (también contacto@grupocentro.ar). Para turnos y resultados, lo más rápido es pacientes.grupocentro.ar o la app \"Sanatorio Centro\". ¿Te ayudo con algo puntual?",
     },
   ],
 
   fallback:
-    "Buena pregunta — esto es una demo de Klini armada para Grupo Centro. En la versión real estaría conectada al sistema de turnos y a la base de info de las sedes. Si querés ver cómo se vería con tus datos reales, coordinamos una demo. 😉",
+    "Buena pregunta — esto es una demo de Klini armada para Grupo Centro. En la versión real estaría conectada a la autogestión de turnos (pacientes.grupocentro.ar) y a la base de info de las sedes. Si querés ver cómo se vería con tus datos reales, coordinamos una demo. 😉",
 };
 
 export default clinic;

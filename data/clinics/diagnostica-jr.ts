@@ -1,7 +1,8 @@
 import type { ClinicData } from "../../app/lib/clinic";
 
-// Diagnóstica JR — Laboratorio clínico de alta especialidad, CDMX. Lead B2B.
-// Prospecto: QFB. Edna Paulina Santiago Rubio, Directora general.
+// Diagnóstica JR — Laboratorio clínico de alta especialidad en biología molecular, Iztapalapa, CDMX.
+// Lead B2B/B2C. Prospecto: QFB. Edna Paulina Santiago Rubio, Responsable sanitaria (cédula 11646521, UNAM).
+// Datos verificados en dimojr.mx (inicio/contacto), resultados.dimojr.mx y LinkedIn (jun 2026).
 const clinic: ClinicData = {
   slug: "diagnostica-jr",
   name: "Laboratorio Diagnóstica JR",
@@ -16,34 +17,27 @@ const clinic: ClinicData = {
     {
       from: "bot",
       text:
-        "¡Hola! Soy Klini, asistente de Diagnóstica JR 👋\n\nSí, somos laboratorio de alta especialidad en biología molecular y tenemos más de 100 estudios por PCR. ¿Qué necesitas detectar? Por ejemplo: COVID-19, VPH, panel respiratorio, panel ITS, tipificación genética…",
+        "¡Hola! Soy Klini, asistente de Diagnóstica JR 👋\n\nSí. Somos un laboratorio de alta especialidad en biología molecular: tenemos más de 100 exámenes en infectología, determinaciones genéticas y caracterización celular. ¿Qué necesitas detectar? Por ejemplo: panel de infectología, hepatitis C, salud sexual o tipificación genética.",
     },
-    { from: "user", text: "necesito un panel respiratorio para mi paciente" },
+    { from: "user", text: "necesito un PCR de hepatitis C para mi paciente" },
     { typing: true, ms: 1100 },
     {
       from: "bot",
       text:
-        "Perfecto. El panel respiratorio por PCR detecta virus y bacterias en una sola muestra (hisopado nasofaríngeo). No requiere ayuno; se recomienda no usar enjuagues bucales 2 horas antes.\n\nTiempo de entrega: 24-48 hrs hábiles vía portal resultados.dimojr.mx. ¿Lo agendas como envío de muestra desde tu consultorio o el paciente viene a la sede de Iztapalapa?",
+        "Perfecto, la detección molecular de hepatitis C la manejamos dentro de nuestra área de infectología. Es una de nuestras pruebas por biología molecular.\n\nPara darte la preparación exacta, el tipo de muestra y el tiempo de entrega de este estudio en específico te conecto con el equipo, ya que dependen del catálogo vigente. ¿Lo agendas como envío de muestra desde tu consultorio o el paciente viene a la sede de Iztapalapa?",
     },
   ],
 
   responses: [
     {
-      keys: [
-        "cita",
-        "agendar",
-        "agenda",
-        "reservar",
-        "turno",
-        "apartar",
-      ],
+      keys: ["cita", "agendar", "agenda", "reservar", "turno", "apartar"],
       text:
-        "Puedes agendar tu cita por WhatsApp al 55 4527 5331 o llamando al 55 6382 3936 / 55 6382 3937. Para envíos de muestra desde consultorio coordinamos ruta con apoyo técnico. ¿Te derivo con un agente?",
+        "Para agendar tu cita escríbenos por WhatsApp al 55 4527 5331 o llámanos al 55 6382 3936 / 55 6382 3937. También puedes contactarnos a contacto@dimojr.mx. Para envíos de muestra desde consultorio coordinamos la logística con apoyo técnico. ¿Te derivo con un agente?",
     },
     {
-      keys: ["horario", "abren", "abierto", "atienden"],
+      keys: ["horario", "abren", "abierto", "atienden", "horarios"],
       text:
-        "Atendemos de lunes a viernes de 9:00 a 19:00 y sábados de 9:00 a 14:00. Domingos y días festivos cerrado. Para muestras urgentes tenemos protocolo especial — pregúntame por 'urgente'.",
+        "Atendemos de lunes a viernes de 9:00 a 19:00 y sábados de 9:00 a 14:00. Domingos y días festivos cerrado.",
     },
     {
       keys: [
@@ -56,9 +50,11 @@ const clinic: ClinicData = {
         "donde",
         "dónde",
         "iztapalapa",
+        "como llego",
+        "cómo llego",
       ],
       text:
-        "Estamos en Av. de las Torres Mz. 20 Lt. 5, Col. San Juan Joya, Alcaldía Iztapalapa, CDMX, C.P. 09839. ¿Te paso ubicación en Maps o coordino recolección de muestra?",
+        "Estamos en Av. de las Torres Mz. 20 Lt. 5, Col. San Juan Joya, Alcaldía Iztapalapa, Ciudad de México, C.P. 09839. ¿Te paso la ubicación en Maps o prefieres que coordinemos la recolección de tu muestra?",
     },
     {
       keys: [
@@ -66,25 +62,35 @@ const clinic: ClinicData = {
         "biologia molecular",
         "biología molecular",
         "molecular",
-        "panel",
-        "respiratorio",
-        "its",
-        "ets",
-        "infeccioso",
+        "estudios",
+        "examenes",
+        "exámenes",
+        "catalogo",
+        "catálogo",
+        "que estudios",
+        "qué estudios",
       ],
       text:
-        "Somos especialistas en biología molecular: PCR para agentes infecciosos individuales (COVID-19, influenza, VRS), paneles respiratorios, panel ITS, panel gastrointestinal y meningoencefalitis. Más de 100 estudios disponibles. ¿Cuál te interesa?",
+        "Somos un laboratorio de alta especialidad en biología molecular con más de 100 exámenes en tres áreas: infectología, determinaciones genéticas y caracterización celular. Dime qué estudio buscas (o el nombre de tu paciente) y te confirmo si está en el catálogo y cómo procede.",
     },
     {
       keys: [
+        "infectologia",
+        "infectología",
+        "infeccioso",
+        "infeccion",
+        "infección",
+        "its",
+        "ets",
+        "hepatitis",
+        "salud sexual",
+        "vih",
         "vph",
         "hpv",
         "papiloma",
-        "genotipificación",
-        "genotipificacion",
       ],
       text:
-        "Manejamos detección y genotipificación de VPH por PCR (alto y bajo riesgo, identifica los serotipos 16 y 18 entre otros). Muestra: cepillado cervical. Resultados en 3-5 días hábiles. ¿Es para tamizaje o seguimiento?",
+        "En infectología hacemos detección por biología molecular de agentes infecciosos. Entre nuestras líneas están hepatitis (incluida hepatitis C) y estudios de salud sexual. Dime el agente o estudio exacto que necesitas y te confirmo tipo de muestra, preparación y tiempo de entrega.",
     },
     {
       keys: [
@@ -92,26 +98,30 @@ const clinic: ClinicData = {
         "genético",
         "genetica",
         "genética",
+        "determinaciones",
         "tipificacion",
         "tipificación",
         "hla",
-        "oncologico",
-        "oncológico",
-        "mutacion",
-        "mutación",
-        "brca",
+        "histocompatibilidad",
+        "compatibilidad",
+        "trasplante",
+        "trasplantes",
       ],
       text:
-        "En tipificación genética e inmunológica realizamos HLA, paneles oncológicos (BRCA1/2, KRAS, EGFR), trombofilias hereditarias y caracterización celular por citometría. Estos estudios requieren orden médica y suelen tomar 7-15 días hábiles. ¿Me pasas la orden para cotizar?",
+        "En determinaciones genéticas realizamos, entre otros, pruebas de histocompatibilidad (compatibilidad de órganos y tejidos / HLA). Estos estudios suelen requerir orden médica. Pásame el estudio o la orden y te conecto con el área para cotizar y darte la indicación de muestra.",
     },
     {
       keys: [
-        "covid",
-        "coronavirus",
-        "sars",
+        "caracterizacion",
+        "caracterización",
+        "celular",
+        "citometria",
+        "citometría",
+        "celulas",
+        "células",
       ],
       text:
-        "Hacemos PCR COVID-19 (cuantitativo, ideal para viaje y diagnóstico). Muestra de hisopado nasofaríngeo, sin preparación especial. Resultados en 24 hrs hábiles, listos en el portal con QR validable. ¿Lo necesitas para viaje?",
+        "La caracterización celular es una de nuestras tres áreas de especialidad, junto con infectología y determinaciones genéticas. Cuéntame qué estudio te indicó tu médico y te confirmo si lo realizamos y cómo proceder.",
     },
     {
       keys: [
@@ -121,35 +131,41 @@ const clinic: ClinicData = {
         "indicaciones",
         "como me preparo",
         "cómo me preparo",
+        "muestra",
+        "que muestra",
+        "qué muestra",
       ],
       text:
-        "La preparación depende del estudio. La mayoría de PCRs no requieren ayuno. Para muestras nasofaríngeas: no comer ni cepillarse 2 hrs antes. Para sangre con marcadores específicos sí pedimos ayuno de 8-12 hrs. Dime el estudio y te paso indicaciones exactas.",
+        "La preparación y el tipo de muestra dependen del estudio específico. Contamos con materiales informativos y apoyo técnico para la toma y el envío de muestras. Dime el nombre del estudio y te paso las indicaciones exactas o te conecto con el equipo.",
     },
     {
       keys: [
         "resultado",
+        "resultados",
         "entrega",
         "informe",
+        "portal",
+        "consultar",
         "tiempo",
         "tarda",
         "tardan",
       ],
       text:
-        "Los resultados se publican en resultados.dimojr.mx (portal con tu usuario). Tiempos típicos: PCR infeccioso 24-48 hrs, paneles 3-5 días, estudios genéticos 7-15 días hábiles. Te avisamos por WhatsApp en cuanto estén.",
+        "Los resultados se consultan en línea en resultados.dimojr.mx con tu usuario. En el portal hay una guía '¿Cómo consultar mis resultados?' y el aviso de privacidad. El tiempo de entrega depende del estudio; dime cuál es y te lo confirmo.",
     },
     {
       keys: [
-        "aseguradora",
-        "seguro",
-        "cobertura",
-        "convenio",
-        "gnp",
-        "axa",
-        "metlife",
-        "monterrey",
+        "calidad",
+        "certificacion",
+        "certificación",
+        "confiable",
+        "por que ustedes",
+        "por qué ustedes",
+        "responsable sanitario",
+        "responsable sanitaria",
       ],
       text:
-        "Trabajamos con las principales aseguradoras (GNP, AXA, MetLife, Seguros Monterrey, entre otras) bajo esquema de reembolso. Te entregamos factura con desglose para tu trámite. ¿Quieres que te confirme cobertura específica?",
+        "Somos un laboratorio de alta especialidad enfocado 100% en biología molecular y contamos con un Sistema de Gestión de Calidad. Nuestra responsable sanitaria es la QFB. Edna Paulina Santiago Rubio (cédula profesional 11646521, UNAM). #EspecialistasPorSalud",
     },
     {
       keys: [
@@ -164,25 +180,40 @@ const clinic: ClinicData = {
         "subcontratación",
         "envio",
         "envío",
-        "muestra",
+        "convenio",
+        "alianza",
       ],
       text:
-        "Para médicos y consultorios operamos como laboratorio subcontratado de especialidad molecular: recolección de muestras, kits de envío, apoyo técnico personalizado y portal exclusivo para tus pacientes. ¿Te conecto con Edna del equipo comercial?",
+        "Para médicos y consultorios operamos como laboratorio de especialidad molecular subcontratado: recolección y envío de muestras, materiales informativos, apoyo técnico y portal de resultados para tus pacientes. ¿Te conecto con Edna del equipo para ver un convenio?",
     },
     {
-      keys: ["urgente", "urgencia", "prisa"],
+      keys: [
+        "aseguradora",
+        "seguro",
+        "cobertura",
+        "factura",
+        "facturacion",
+        "facturación",
+        "reembolso",
+        "pago",
+      ],
       text:
-        "Tenemos protocolo de estudios urgentes con tiempos reducidos (sujeto a tipo de prueba y costo adicional). Coordinemos por WhatsApp al 55 4527 5331. Si es emergencia médica, marca 911.",
+        "Sobre facturación, reembolsos y manejo con tu aseguradora te conecto con un agente para confirmar el esquema según tu caso, ya que no tengo esa lista publicada. ¿Te paso con el equipo?",
     },
     {
-      keys: ["precio", "costo", "cuanto", "cuánto", "cotizacion", "cotización"],
+      keys: ["urgente", "urgencia", "prisa", "emergencia"],
       text:
-        "Los precios varían según el estudio. Pásame el nombre exacto (o el código del catálogo) y te cotizo. También puedes consultar el Catálogo 2026 en dimojr.mx. ¿Te paso a un agente para cerrar la cotización?",
+        "Para casos con prisa coordinemos directo por WhatsApp al 55 4527 5331 y revisamos tiempos según el estudio. Si se trata de una emergencia médica, marca 911.",
+    },
+    {
+      keys: ["precio", "precios", "costo", "cuanto", "cuánto", "cotizacion", "cotización"],
+      text:
+        "Los precios no están publicados y varían por estudio. Pásame el nombre exacto del examen (o el código del catálogo) y te conecto con un agente para cotizarlo. El catálogo vigente está disponible solicitándolo por WhatsApp al 55 4527 5331.",
     },
   ],
 
   fallback:
-    "Buena pregunta — en una versión real de Klini para Diagnóstica JR esto se conectaría con el catálogo de estudios y el sistema de gestión del lab. Si querés ver cómo se vería con datos reales, agendá una demo con el equipo. 😉",
+    "Buena pregunta — en una versión real de Klini para Diagnóstica JR esto se conectaría con el catálogo de estudios y el sistema de gestión del laboratorio. Si quieres ver cómo se vería con tus datos reales, agenda una demo con el equipo. 😉",
 };
 
 export default clinic;

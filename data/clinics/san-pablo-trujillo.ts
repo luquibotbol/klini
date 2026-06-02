@@ -1,7 +1,8 @@
 import type { ClinicData } from "../../app/lib/clinic";
 
-// Clínica San Pablo Trujillo — Perú. Parte de la Red San Pablo.
-// Prospecto: David Cardoza, Gerente General.
+// Clínica San Pablo Trujillo — Perú. Parte de la Red de Clínicas San Pablo.
+// Prospecto: David. Datos extraídos de sanpablotrujillo.com.pe (home,
+// /especialidades, /servicios, /contacto, /emergencia y portal Mi Vida).
 const clinic: ClinicData = {
   slug: "san-pablo-trujillo",
   name: "Clínica San Pablo Trujillo",
@@ -16,14 +17,14 @@ const clinic: ClinicData = {
     {
       from: "bot",
       text:
-        "¡Hola! Soy Klini, asistente de la Clínica San Pablo Trujillo 👋\n\nEstamos en Av. Húsares de Junín 690, Urb. La Merced, y contamos con emergencia 24/7 para adultos y pediatría.\n\n¿En qué te puedo ayudar hoy?\n\n1️⃣ Consulta de emergencia\n2️⃣ Agendar cita con especialista\n3️⃣ Consulta sobre EPS y convenios",
+        "¡Hola! Soy Klini, el asistente de la Clínica San Pablo Trujillo 👋\n\nEstamos en Av. Húsares de Junín N° 690, Urb. La Merced, y contamos con Emergencia de adultos y pediátrica las 24 horas, los 365 días del año.\n\n¿En qué te puedo ayudar hoy?\n\n1️⃣ Atención de emergencia\n2️⃣ Cita con un especialista\n3️⃣ Seguros y convenios",
     },
-    { from: "user", text: "2, quiero agendar con cardiología" },
+    { from: "user", text: "2, quiero una cita con cardiología" },
     { typing: true, ms: 1100 },
     {
       from: "bot",
       text:
-        "Perfecto. Cardiología es una de nuestras más de 50 especialidades. Puedes agendar tu cita por estos canales:\n\n• Portal del paciente: mivida.sanpablo.com.pe\n• App Mi Vida San Pablo (iOS / Android)\n• Central telefónica: (044) 485-244\n\n¿Tienes alguna EPS o seguro para verificar cobertura antes de agendar?",
+        "Perfecto. Cardiología es una de nuestras más de 40 especialidades. Puedes reservar, pagar y reprogramar tu cita por estos canales:\n\n• Portal Mi Vida San Pablo: mivida.sanpablo.com.pe\n• App Mi Vida San Pablo (iOS / Android)\n• Central telefónica: (044) 485-244 (atiende las 24 horas)\n\nLa consulta externa atiende de lunes a sábado de 7:00 a 20:00. ¿Tienes alguna EPS o seguro para verificar cobertura antes de reservar?",
     },
   ],
 
@@ -38,9 +39,10 @@ const clinic: ClinicData = {
         "24 horas",
         "dolor",
         "fiebre",
+        "accidente",
       ],
       text:
-        "🚑 Contamos con Emergencia 24/7 para adultos y pediatría en Av. Húsares de Junín 690. También tenemos UCI y ambulancia / cardiomóvil.\n\nSi es una emergencia ahora mismo, llama al (044) 485-244 o al 981 492 808, o ven directo. Si estás en la calle y necesitas ambulancia pública, marca SAMU 106.",
+        "🚑 Tenemos Emergencia de adultos y pediátrica las 24 horas, los 365 días del año, en Av. Húsares de Junín N° 690.\n\n• Emergencia de adultos: 981 177 226\n• Emergencia pediátrica: (044) 485-244\n\nLa Emergencia de adultos cuenta con tópicos de trauma shock, traumatología, cirugía y ginecología; y contamos con UCI y ambulancia / Cardiomóvil. Si es una emergencia ahora mismo, llama o ven directo. Si estás en la calle y necesitas una ambulancia pública, marca SAMU 106.",
     },
     {
       keys: [
@@ -48,13 +50,14 @@ const clinic: ClinicData = {
         "agendar",
         "agenda",
         "reservar",
+        "reprogramar",
         "consulta",
         "turno",
         "reservacion",
         "reservación",
       ],
       text:
-        "Puedes agendar tu cita por el portal mivida.sanpablo.com.pe, desde la app Mi Vida San Pablo, o llamando a la central (044) 485-244. ¿Te ayudo a derivar con un agente para coordinarla ahora?",
+        "Puedes reservar, pagar y reprogramar tu cita —presencial o teleconsulta— por el portal Mi Vida San Pablo (mivida.sanpablo.com.pe), desde la app Mi Vida San Pablo, o llamando a la central (044) 485-244. La consulta externa atiende de lunes a sábado de 7:00 a 20:00. ¿Te ayudo a derivar con un agente para coordinarla ahora?",
     },
     {
       keys: [
@@ -70,16 +73,33 @@ const clinic: ClinicData = {
         "ginecologia",
         "ginecología",
         "obstetricia",
-        "cirugia",
-        "cirugía",
+        "neurologia",
+        "neurología",
+        "oncologia",
+        "oncología",
       ],
       text:
-        "Contamos con más de 50 especialidades y subespecialidades, entre ellas cardiología, cirugía general, cirugía maxilofacial, pediatría, obstetricia, ginecología, medicina física y rehabilitación. ¿Sobre cuál querés más información?",
+        "Contamos con más de 40 especialidades y subespecialidades, entre ellas: cardiología, cirugía cardiovascular, neurocirugía, neurología, oncología médica y cirugía oncológica, ginecología y obstetricia, neonatología, pediatría, gastroenterología, traumatología, urología, dermatología, oftalmología y otorrinolaringología. ¿Sobre cuál quieres más información?",
     },
     {
-      keys: ["horario", "horarios", "atienden", "abierto", "abren", "hora"],
+      keys: [
+        "cirugia",
+        "cirugía",
+        "operacion",
+        "operación",
+        "operar",
+        "quirurgico",
+        "quirúrgico",
+        "laparoscopia",
+        "laparoscópica",
+      ],
       text:
-        "Nuestra emergencia atiende 24/7 los 365 días del año. La central telefónica (044) 485-244 también está disponible todo el día. Las consultas con especialistas se programan vía portal o app. ¿Querés que te ayude a agendar?",
+        "Sí, realizamos cirugía de alta complejidad: cirugía general y laparoscópica, cardiovascular, oncológica, neurocirugía, cirugía de cabeza y cuello, plástica y quemados, artroscópica, de mano y cirugía pediátrica. Para una evaluación quirúrgica primero coordinamos una cita con el especialista por la central (044) 485-244. ¿Te ayudo a agendarla?",
+    },
+    {
+      keys: ["horario", "horarios", "atienden", "abierto", "abren", "hora", "atencion", "atención"],
+      text:
+        "La Emergencia atiende 24 horas, los 365 días del año. La consulta externa atiende de lunes a sábado de 7:00 a 20:00, y la central telefónica (044) 485-244 está disponible las 24 horas, de lunes a domingo y feriados. ¿Quieres que te ayude a reservar una cita?",
     },
     {
       keys: [
@@ -91,15 +111,20 @@ const clinic: ClinicData = {
         "ambulancia",
         "cardiomovil",
         "cardiomóvil",
+        "materno",
+        "neonatologia",
+        "neonatología",
       ],
       text:
-        "Tenemos hospitalización, UCI, unidad materno-infantil y servicio de ambulancia / cardiomóvil. Para coordinar internamiento o traslado, llamá a la central (044) 485-244.",
+        "Tenemos hospitalización, Unidad de Cuidados Intensivos (UCI), Unidad Materno Infantil con neonatología, y servicio de ambulancia / Cardiomóvil con atención prehospitalaria y traslados asistidos las 24 horas. Para coordinar internamiento o un traslado, llama a la central (044) 485-244.",
     },
     {
       keys: [
         "eps",
         "seguro",
+        "seguros",
         "convenio",
+        "convenios",
         "cobertura",
         "rimac",
         "rímac",
@@ -107,10 +132,9 @@ const clinic: ClinicData = {
         "pacífico",
         "sanitas",
         "mapfre",
-        "sis",
       ],
       text:
-        "Trabajamos con las principales EPS y seguros del Perú: Rímac, Pacífico, Sanitas, Mapfre, entre otros. Para confirmar la cobertura específica de tu plan, pásame tu EPS y el servicio que necesitás y te lo confirmo.",
+        "Trabajamos con diversas EPS, seguros y convenios. Para confirmar la cobertura exacta de tu plan —y si aplica a consulta, emergencia o un procedimiento— pásame el nombre de tu EPS o seguro y el servicio que necesitas, y lo verificamos contigo o te derivo con un agente.",
     },
     {
       keys: [
@@ -124,9 +148,10 @@ const clinic: ClinicData = {
         "como llegar",
         "cómo llegar",
         "sede",
+        "merced",
       ],
       text:
-        "Estamos en Av. Húsares de Junín N° 690, Urb. La Merced, Trujillo. Somos parte de la Red de Clínicas San Pablo. ¿Te paso la ubicación en mapa?",
+        "Estamos en Av. Húsares de Junín N° 690, Urb. La Merced, Trujillo. Somos parte de la Red de Clínicas San Pablo. ¿Te paso la ubicación en el mapa?",
     },
     {
       keys: [
@@ -138,26 +163,34 @@ const clinic: ClinicData = {
         "laboratorio",
         "imagenes",
         "imágenes",
-        "imagenologia",
-        "imagenología",
+        "tomografia",
+        "tomografía",
+        "rayos",
+        "ecografia",
+        "ecografía",
       ],
       text:
-        "Los resultados de laboratorio e imagenología quedan disponibles en el portal mivida.sanpablo.com.pe y en la app Mi Vida San Pablo. Si no los ves cargados, te derivo con un agente para revisarlo.",
+        "Contamos con laboratorio (Qualab), tomografía (Tomomedic), rayos X y ecografía, dentro de nuestro centro de diagnóstico por imágenes. Tus resultados quedan disponibles en el portal Mi Vida San Pablo (mivida.sanpablo.com.pe) y en la app. Si no los ves cargados, te derivo con un agente para revisarlo.",
     },
     {
-      keys: ["telefono", "teléfono", "llamar", "contacto", "central", "whatsapp"],
+      keys: ["telefono", "teléfono", "llamar", "contacto", "central", "whatsapp", "wsp"],
       text:
-        "Nuestra central es (044) 485-244 y también podés contactarnos al 981 492 808. La central atiende todo el día.",
+        "Nuestra central telefónica es (044) 485-244 y atiende las 24 horas, de lunes a domingo y feriados. También puedes escribirnos por WhatsApp al 981 492 808. Para Emergencia de adultos marca 981 177 226. La farmacia atiende en (044) 485-244, anexo 7033.",
     },
     {
-      keys: ["telemedicina", "online", "virtual", "videollamada"],
+      keys: ["telemedicina", "teleconsulta", "online", "virtual", "videollamada"],
       text:
-        "Sí, contamos con telemedicina para varias especialidades. Podés coordinarla desde el portal mivida.sanpablo.com.pe o llamando a (044) 485-244.",
+        "Sí, ofrecemos teleconsultas. Puedes reservarlas, pagarlas y reprogramarlas desde el portal Mi Vida San Pablo (mivida.sanpablo.com.pe), la app, o llamando a (044) 485-244.",
+    },
+    {
+      keys: ["rehabilitacion", "rehabilitación", "fisioterapia", "terapia", "medicina fisica", "medicina física"],
+      text:
+        "Tenemos servicio de Medicina Física y Rehabilitación, que atiende de lunes a viernes de 7:00 a 19:00. Para una cita, comunícate con la central (044) 485-244 o reserva por el portal Mi Vida San Pablo.",
     },
   ],
 
   fallback:
-    "Buena pregunta — en una versión real de Klini para la Clínica San Pablo Trujillo esto se conectaría con tu agenda, EPS y portal del paciente. Si querés ver cómo se vería con datos reales, agendá una demo con el equipo. 😉",
+    "Buena pregunta — en una versión real de Klini para la Clínica San Pablo Trujillo esto se conectaría con tu agenda, tus EPS/convenios y el portal del paciente. Si quieres ver cómo se vería con datos reales, agenda una demo con el equipo. 😉",
 };
 
 export default clinic;
