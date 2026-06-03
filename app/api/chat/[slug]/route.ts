@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import { getClinic } from "../../../lib/clinics";
 import { buildSystemPrompt } from "../../../lib/clinic-kb";
 
-export const runtime = "edge";
+// Node.js runtime (default). En Cloudflare Workers vía OpenNext, las rutas
+// "edge" no reciben process.env de forma fiable y rompían con 500. La ruta
+// Node corre sobre el Worker con nodejs_compat y process.env poblado.
+export const dynamic = "force-dynamic";
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
-const MODEL = process.env.OPENAI_MODEL || "gpt-4.1-nano";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -34,6 +36,7 @@ export async function POST(
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
+  const model = process.env.OPENAI_MODEL || "gpt-4.1-nano";
   if (!apiKey) {
     console.warn("OPENAI_API_KEY no configurada — usando fallback");
     return NextResponse.json({ reply: FALLBACK_REPLY });
@@ -60,9 +63,8 @@ export async function POST(
     return NextResponse.json({ error: "last_must_be_user" }, { status: 400 });
   }
 
-  const systemContent = buildSystemPrompt(clinic);
-
   try {
+    const systemContent = buildSystemPrompt(clinic);
     const r = await fetch(OPENAI_URL, {
       method: "POST",
       headers: {
@@ -70,7 +72,7 @@ export async function POST(
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: MODEL,
+        model,
         temperature: 0.4,
         max_tokens: 250,
         messages: [
