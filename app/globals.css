@@ -900,6 +900,25 @@ section {
 .price-amount { font-size: 44px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
 .price-amount-unit { font-size: 14px; color: var(--ink-3); }
 .price-setup { font-size: 13.5px; color: var(--ink-3); }
+.price-promo {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--lime) 0%, var(--lime-bright) 100%);
+  color: #0a3a1e;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 12px -2px rgba(37,211,102,0.45);
+  animation: price-promo-pulse 2.4s ease-in-out infinite;
+}
+@keyframes price-promo-pulse {
+  0%, 100% { box-shadow: 0 4px 12px -2px rgba(37,211,102,0.45); }
+  50%      { box-shadow: 0 4px 18px 0 rgba(37,211,102,0.7); }
+}
 .price-desc { font-size: 14.5px; color: var(--ink-3); line-height: 1.5; }
 .price-features {
   list-style: none;

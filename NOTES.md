@@ -109,7 +109,7 @@ Estructura del `doPost`: parsea el JSON, valida `data.secret`, hace
 - Rebrand de "Maja" a "Klini"; carpeta del proyecto renombrada a `klini`.
 - Favicon: se usa `app/icon.png` (la "k" circular). Se borró el `favicon.ico`.
 - Se agregó `public/llms.txt` para SEO / descubribilidad por LLMs.
-- Pricing — plan **Founding member**: USD 99/mes + USD 250 de setup.
+- Pricing — plan **Founding member**: USD 150/mes + USD 250 de setup.
 - Dashboard — se reemplazó el callout de "emergencias" por
   "17.991 consultas recibidas este mes" (escritorio + mobile).
 - `submitLead` reescrito: de escribir a archivo → POST a webhook (Cloudflare

@@ -16,6 +16,7 @@ type Plan = {
   price: string;
   priceUnit: string | null;
   sub: string;
+  promo?: string;
   desc: string;
   features: string[];
   cta: string;
@@ -28,9 +29,10 @@ const plans: Plan[] = [
     name: "Founding member",
     badge: "Cupos limitados",
     badgeKind: "lime",
-    price: "USD 99",
+    price: "USD 150",
     priceUnit: "/mes",
     sub: "Setup $250 USD",
+    promo: "🎁 Primeros 3 meses gratis",
     desc: "Para las primeras clínicas que entran. Congelás este precio de por vida.",
     features: sharedFeatures,
     cta: "Reservar mi cupo",
@@ -118,6 +120,7 @@ export default function Pricing() {
                 </div>
                 <div className="price-setup mt-2">{p.sub}</div>
               </div>
+              {p.promo && <div className="price-promo">{p.promo}</div>}
               <div className="price-desc">{p.desc}</div>
               <ul className="price-features">
                 {p.features.map((f) => (
